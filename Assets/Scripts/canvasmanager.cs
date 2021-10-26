@@ -1,4 +1,6 @@
+using System.Collections;
 using System.Collections.Generic;
+using System.Resources;
 using TMPro;
 using UnityEngine;
 using UnityEngine.SceneManagement;
@@ -26,9 +28,13 @@ public class canvasmanager : MonoBehaviour
 
     public player pS;
 
+    public GameObject ShopPanel;
+
     private int levelshowNo;
 
     private int lvlNo;
+
+    public Animator Shopnu;
 
    
 
@@ -94,6 +100,21 @@ public class canvasmanager : MonoBehaviour
         pS.SetHats();
     }
 
+    public void ShopClose()
+    {
+        Shopnu.SetTrigger("Close");
+        StartCoroutine(Shop());
+    }
+
+    public IEnumerator Shop()
+    {
+        yield return new WaitForSeconds(1f);
+        ShopPanel.SetActive(false);
+        
+    }
+    
+
+
     public void OnBuyButton()
     {
         if (cash >= 150 && hats.Count != 0)
@@ -127,6 +148,29 @@ public class canvasmanager : MonoBehaviour
         PlayerPrefs.SetInt("cash", cash);
     }
 
+    public void DubleCoins()
+    {
+        cash += 100;
+        PlayerPrefs.SetInt("cash", cash);
+        DisplayInfo();
+        
+        if (Gamemanager.Instance.levels == Gamemanager.stages.candy)
+        {
+            var @int = PlayerPrefs.GetInt("candy", 0);
+            @int++;
+            PlayerPrefs.SetInt("candy", @int);
+        }
+
+        if (lvlNo >= 4)
+            lvlNo = 1;
+        else
+            lvlNo++;
+        SceneManager.LoadScene(lvlNo);
+        levelshowNo++;
+        PlayerPrefs.SetInt("levelshow", levelshowNo);
+        PlayerPrefs.SetInt("level", lvlNo);
+        
+    }
     public void VideoButton()
     {
         AddCash();
