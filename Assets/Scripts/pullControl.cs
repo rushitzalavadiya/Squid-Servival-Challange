@@ -2,6 +2,7 @@ using UnityEngine;
 
 public class pullControl : MonoBehaviour
 {
+    
     public bool startGame;
 
     public float pullSpeed = 5f;
@@ -16,23 +17,46 @@ public class pullControl : MonoBehaviour
 
     public Animator Leveranim;
 
+    public GameObject[] Rotets;
+
     public AudioSource yellingAudio;
 
     private bool gameEnd;
+
+    private bool Rotet;
 
     private void Update()
     {
         if (startGame && !gameEnd)
         {
             if (Input.GetMouseButtonDown(0))
+            { 
+                Rotet = true;
+              
                 moveObj.position += transform.forward * pullSpeed * Time.deltaTime;
+                
+            }
+              
             else if (!Input.GetMouseButton(0)) moveObj.position += -transform.forward * 0.5f * Time.deltaTime;
         }
     }
 
+    public void Roteshion()
+    {
+        for (int i = 0; i < Rotets.Length; i++)
+        {
+            
+           
+            
+                Debug.Log("Aviyu se");
+                Rotets[i].transform.Rotate(0, -80f, 0);
+            
+           
+        }
+    }
     private void OnTriggerEnter(Collider other)
     {
-        if (other.tag == "Player" && !gameEnd)
+        if (other.CompareTag("Player") && !gameEnd)
         {
             gameEnd = true;
             print("Loose");
@@ -60,7 +84,7 @@ public class pullControl : MonoBehaviour
             yellingAudio.Stop();
         }
 
-        if (other.tag == "enemy" && !gameEnd)
+        if (other.CompareTag("enemy") && !gameEnd)
         {
             gameEnd = true;
             var array = enemyRb;
@@ -89,9 +113,11 @@ public class pullControl : MonoBehaviour
         }
     }
 
+   
     public void StartGame()
     {
         startGame = true;
+        Roteshion();
         var array = enemyRb;
         for (var i = 0; i < array.Length; i++) array[i].transform.GetComponent<Animator>().SetTrigger("Pull");
         array = playerRb;

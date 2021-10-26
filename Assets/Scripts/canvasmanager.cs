@@ -2,6 +2,7 @@ using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using UnityEngine.Serialization;
 
 public class canvasmanager : MonoBehaviour
 {
@@ -28,6 +29,8 @@ public class canvasmanager : MonoBehaviour
     private int levelshowNo;
 
     private int lvlNo;
+
+   
 
     private void Awake()
     {
@@ -60,6 +63,10 @@ public class canvasmanager : MonoBehaviour
     {
         gameplayPanel.SetActive(false);
         levelWinPanel.SetActive(true);
+        if (Gamemanager.Instance.directionLight != null)
+        {
+            Gamemanager.Instance.directionLight.SetActive(false);
+        }
         Gamemanager.Instance.winObject.SetActive(true);
         Debug.Log("showAd");
     }

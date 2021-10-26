@@ -24,8 +24,11 @@ public class Gamemanager : MonoBehaviour
 
     public GameObject winObject;
 
+    
     public GameObject FailObject;
-
+    
+    public GameObject directionLight;
+    
     public stages levels;
 
     public bool startLevel;
